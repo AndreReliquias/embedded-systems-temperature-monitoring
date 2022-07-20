@@ -2,6 +2,7 @@
 DHT dht2(D1, DHT11);
 
 bool s = false;
+float temperature = 0;
 
 void setup()
 {
@@ -13,11 +14,20 @@ void setup()
 
 void loop()
 {
+  temperature = dht2.readTemperature();
   Serial.println("Temperature in C:");
-  Serial.println((dht2.readTemperature()));
-  Serial.println("Humidity in C:");
-  Serial.println((dht2.readHumidity()));
-  s = !s;
+  Serial.println(temperature);
+  Serial.println(s);
+
+  if (temperature > 22)
+  {
+    s = true;
+  }
+  else if (temperature < 22 && s)
+  {
+    s = false;
+  }
+
   digitalWrite(D3, s);
   delay(1000);
 }
